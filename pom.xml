@@ -6,7 +6,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Application Base</name>
 	<description>Common Components for building an XML Driven Web Application</description>
-
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<repositories>
 		<repository>
 			<id>glassfish-repository</id>
