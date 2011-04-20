@@ -3,7 +3,7 @@
 
 	<production-xmldb>
 		<hostname>localhost</hostname>
-		<port>9998</port>
+		<port>8010</port>
 		<username>admin</username>
 		<password>admin</password>
 		<database>Documents</database>
@@ -11,11 +11,11 @@
 
 	<testng-xmldb>
 		<hostname>localhost</hostname>
-		<port>9998</port>
+		<port>8010</port>
 		<username>admin</username>
 		<password>admin</password>
 		<database>Modules</database>
-	</testng-xmldb>
+	</testng-xmldb> 
 
 	<application-settings>
 		<hostname>127.0.0.1</hostname>
