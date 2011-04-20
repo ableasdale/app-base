@@ -17,7 +17,6 @@ public class BaseResource {
 	@GET
 	@Produces("application/xml")
 	public Response getBase() throws RequestException {
-
 		return Response.ok("<status>active</status>").build();
 	}
 
