@@ -2,7 +2,6 @@ package com.xmlmachines.resources;
 
 import org.apache.log4j.Logger;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -18,9 +17,6 @@ public class XmlRestRouterTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		LOG.info("before class method");
-		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance()
-				.startServer();
 		client = Client.create();
 		webResource = client.resource("http://localhost:8888/xml");
 		// webResource2 = client.resource("http://localhost:8888/xp/xpl/pipe");
@@ -71,10 +67,9 @@ public class XmlRestRouterTest {
 		XMLAssert.assertXpathEvaluatesTo("XProc Pipeline", "//doc", s);
 	}
 
-	@AfterClass
+	// @AfterClass
 	public static void tearDown() throws Exception {
-		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance()
-				.stopServer();
+
 		LOG.debug("Successfully torn down server");
 
 	}
