@@ -23,13 +23,17 @@ public class TestHelper {
 
 	private void processDocumentRoot(Element root) {
 		Elements elems = root.getChildElements("MedlineCitation");
+
 		for (int i = 0; i < elems.size(); i++) {
 			StringBuilder sb = new StringBuilder();
 			// System.out.println(elems.get(0).toXML());
 			Elements tmp = elems.get(i).getChildElements("PMID");
 			sb.append("/content/").append(i).append("-")
 					.append(tmp.get(0).getValue()).append(".xml");
-			adHocQueryTmpl(sb.toString(), elems.get(i).toXML());
+
+			XccProcess p = new XccProcess(adHocQueryTmpl(sb.toString(), elems
+					.get(i).toXML()));
+			new Thread(p).start();
 		}
 	}
 
