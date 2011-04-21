@@ -33,7 +33,7 @@ public class ConfigurationProvider {
 		LOG.info("Creating the configuration Object [Singleton]");
 		try {
 			XMLConfiguration config = new XMLConfiguration(
-					"config/db-admin.xml");
+					"src/main/resources/config/db-admin.xml");
 			LOG.debug("Loaded Config xml Document");
 
 			/*

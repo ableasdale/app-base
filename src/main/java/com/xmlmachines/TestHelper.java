@@ -10,7 +10,15 @@ import nu.xom.Elements;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 
+import com.marklogic.xcc.ContentSource;
+
 public class TestHelper {
+
+	private final ContentSource cs;
+
+	public TestHelper(ContentSource markLogicContentSource) {
+		this.cs = markLogicContentSource;
+	}
 
 	public void processMedlineXML() throws ValidityException, ParsingException,
 			IOException {
@@ -32,7 +40,7 @@ public class TestHelper {
 					.append(tmp.get(0).getValue()).append(".xml");
 
 			XccProcess p = new XccProcess(adHocQueryTmpl(sb.toString(), elems
-					.get(i).toXML()));
+					.get(i).toXML()), cs.newSession());
 			new Thread(p).start();
 		}
 	}

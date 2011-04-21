@@ -58,6 +58,7 @@ public class MarkLogicContentSourceProvider {
 				.append(cfg.getPassword()).append("@")
 				.append(cfg.getHostName()).append(":")
 				.append(cfg.getHostPort());
+		LOG.info("Conn: " + sb.toString());
 		return sb.toString();
 	}
 
@@ -75,6 +76,7 @@ public class MarkLogicContentSourceProvider {
 			return getProductionContentSource();
 
 		case TEST:
+			LOG.info("should get here");
 			return getTestContentSource();
 		}
 		// default
