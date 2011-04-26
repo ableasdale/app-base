@@ -39,7 +39,7 @@ public class MarkLogicSearchResource {
 	@Produces("application/xml")
 	public Response doSearchViaPost(MultivaluedMap<String, String> formParams)
 			throws RequestException {
-		LOG.debug("hitting doSearchViaPost");
+		// LOG.debug("hitting doSearchViaPost");
 		return prepareSearch(formParams.getFirst("term"));
 	}
 

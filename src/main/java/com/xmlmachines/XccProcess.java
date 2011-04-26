@@ -1,6 +1,8 @@
 package com.xmlmachines;
 
+import com.marklogic.xcc.Request;
 import com.marklogic.xcc.Session;
+import com.marklogic.xcc.exceptions.RequestException;
 
 /**
  * The Class Process.
@@ -36,8 +38,29 @@ public class XccProcess implements Runnable {
 		// ThreadTimingBean tt = new ThreadTimingBean();
 		// tt.setName(Thread.currentThread().getName());
 		// tt.setStart(System.currentTimeMillis());
-		System.out.println("about to write adhoc q " + query);
-		writeDoc();
+		/*
+		 * System.out.println("attempting to insert..." +
+		 * query.substring(query.length() - 50, query.length()));
+		 */
+		Request r = session.newAdhocQuery(query);
+		try {
+			session.submitRequest(r);
+		} catch (RequestException e) {
+			System.out.println("got an exception..");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		// strValue.append(rs.asString());
+		/*
+		 * while (rs.hasNext()) { strValue.append(rs.asString()); rs.next(); }
+		 */
+		// LOG.info(strValue.toString());
+
+		// System.out.println("about to write adhoc q ");
+		// writeDoc();
 		// tt.setEnd(System.currentTimeMillis());
 		// putAndReport(tt);
 

@@ -9,8 +9,9 @@ declare default function namespace "http://www.w3.org/2005/xpath-functions";
 (: 1. Create the database and forest :)
 declare function local:setup(){
     (
-        info:database-create($config:UNIT-TEST-DB-NAME),
-        dbtools:addIndexes($config:UNIT-TEST-DB-NAME, $config:INDEXES)
+        info:database-create($config:UNIT-TEST-DB-NAME)
+        (: not creating indices at this time :)
+      (:  dbtools:addIndexes($config:UNIT-TEST-DB-NAME, $config:INDEXES) :)
      )
 }; 
 

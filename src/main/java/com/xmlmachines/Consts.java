@@ -17,6 +17,7 @@ public class Consts {
 		PROD, TEST
 	}
 
+	public static final String UNIT_TEST_DB = "BasicTests";
 	public static final String XML_PI = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 	public static final String SCHEMATRON_TRANSFORMER = "resources/schematron/iso_svrl_for_xslt2.xsl";
 	public static final String XML_SCHEMA_URI = "http://www.w3.org/2001/XMLSchema";
