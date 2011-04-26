@@ -7,8 +7,8 @@ import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.marklogic.xcc.Request;
@@ -22,11 +22,11 @@ import com.xmlmachines.providers.MarkLogicContentSourceProvider;
 
 public class MLBuildAndConfigurationTest {
 
-	private final Logger LOG = Logger
+	private static Logger LOG = Logger
 			.getLogger(MLBuildAndConfigurationTest.class);
 
-	@Before
-	public void setUp() throws RequestException {
+	@BeforeClass
+	public static void setUp() throws RequestException {
 		// LOG.info("creating ML database for tests");
 		Session s = MarkLogicContentSourceProvider.getInstance()
 				.getProductionContentSource().newSession();
@@ -117,8 +117,8 @@ public class MLBuildAndConfigurationTest {
 		s.close();
 	}
 
-	@After
-	public void tearDown() throws RequestException {
+	@AfterClass
+	public static void tearDown() throws RequestException {
 		Session s = MarkLogicContentSourceProvider.getInstance()
 				.getProductionContentSource().newSession();
 
