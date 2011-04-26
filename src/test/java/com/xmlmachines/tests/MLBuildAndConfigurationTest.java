@@ -1,4 +1,5 @@
 package com.xmlmachines.tests;
+
 import java.io.IOException;
 
 import junit.framework.Assert;
@@ -21,7 +22,8 @@ import com.xmlmachines.providers.MarkLogicContentSourceProvider;
 
 public class MLBuildAndConfigurationTest {
 
-	private final Logger LOG = Logger.getLogger(MLBuildAndConfigurationTest.class);
+	private final Logger LOG = Logger
+			.getLogger(MLBuildAndConfigurationTest.class);
 
 	@Before
 	public void setUp() throws RequestException {
@@ -65,6 +67,53 @@ public class MLBuildAndConfigurationTest {
 				.newAdhocQuery("fn:name(doc()[1]/element()) eq 'MedlineCitation'");
 		ResultSequence rs = s.submitRequest(r);
 		Assert.assertEquals("true", rs.asString());
+		s.close();
+	}
+
+	@Test
+	public void isUriLexiconAvailable() throws RequestException {
+		Session s = MarkLogicContentSourceProvider.getInstance()
+				.getProductionContentSource().newSession(Consts.UNIT_TEST_DB);
+		Request r = s.newAdhocQuery("cts:uris( '', ('document') )");
+		ResultSequence rs = s.submitRequest(r);
+		// LOG.info(rs.asString());
+		Assert.assertEquals(156, rs.size());
+		s.close();
+	}
+
+	@Test
+	public void isCollectionLexiconAvailable() throws RequestException {
+		Session s = MarkLogicContentSourceProvider.getInstance()
+				.getProductionContentSource().newSession(Consts.UNIT_TEST_DB);
+		Request r = s.newAdhocQuery("count(cts:collections())");
+		ResultSequence rs = s.submitRequest(r);
+		// LOG.info(rs.asString());
+		Assert.assertEquals(1, rs.size());
+		Assert.assertEquals("0", rs.asString());
+		s.close();
+	}
+
+	@Test
+	public void addDocsToCollection() throws RequestException {
+		Session s = MarkLogicContentSourceProvider.getInstance()
+				.getProductionContentSource().newSession(Consts.UNIT_TEST_DB);
+		Request r = s
+				.newAdhocQuery("for $doc in doc()/MedlineCitation/@Status[. ne 'MEDLINE']\nreturn (xdmp:document-add-collections(xdmp:node-uri($doc), 'not-medline'), <done/>)");
+		ResultSequence rs = s.submitRequest(r);
+		// LOG.info(rs.asString());
+		Assert.assertEquals(21, rs.size());
+		s.close();
+	}
+
+	@Test
+	public void doesDatabaseContainOneCollection() throws RequestException {
+		Session s = MarkLogicContentSourceProvider.getInstance()
+				.getProductionContentSource().newSession(Consts.UNIT_TEST_DB);
+		Request r = s.newAdhocQuery("count(cts:collections())");
+		ResultSequence rs = s.submitRequest(r);
+		// LOG.info(rs.asString());
+		Assert.assertEquals(1, rs.size());
+		Assert.assertEquals("1", rs.asString());
 		s.close();
 	}
 
