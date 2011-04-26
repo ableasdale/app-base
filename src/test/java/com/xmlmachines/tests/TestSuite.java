@@ -10,7 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 //@RunWith(JUnit4ClassRunner.class)
 @RunWith(Suite.class)
-@SuiteClasses({ MarkLogicConnectionTest.class })
+@SuiteClasses({ MarkLogicConnectionTest.class,
+		MLBuildAndConfigurationTest.class })
 public class TestSuite {
 
 	@BeforeClass

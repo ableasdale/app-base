@@ -1,3 +1,4 @@
+package com.xmlmachines.tests;
 import java.io.IOException;
 
 import junit.framework.Assert;
@@ -18,9 +19,9 @@ import com.xmlmachines.TestHelper;
 import com.xmlmachines.providers.IOUtilsProvider;
 import com.xmlmachines.providers.MarkLogicContentSourceProvider;
 
-public class TestCI {
+public class MLBuildAndConfigurationTest {
 
-	private final Logger LOG = Logger.getLogger(TestCI.class);
+	private final Logger LOG = Logger.getLogger(MLBuildAndConfigurationTest.class);
 
 	@Before
 	public void setUp() throws RequestException {
