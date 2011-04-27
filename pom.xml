@@ -101,6 +101,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-parsers</artifactId>
+			<version>0.9</version>
+		</dependency>
+		<dependency>
 			<groupId>com.marklogic.ps</groupId>
 			<artifactId>xquery-unit</artifactId>
 			<version>0.3.4</version>
@@ -121,5 +126,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>
