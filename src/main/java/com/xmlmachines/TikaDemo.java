@@ -19,7 +19,7 @@ public class TikaDemo {
 	public static void main(String[] args) throws IOException, SAXException,
 			TikaException {
 		// String fname = "C:/test-doc.pdf";
-		String fname = "src/main/resources/pdfs/postpn227.pdf";
+		String fname = "src/main/resources/pdfs/postpn228.pdf";
 		InputStream input = new FileInputStream(new File(fname));
 		ContentHandler textHandler = new BodyContentHandler();
 		Metadata metadata = new Metadata();
