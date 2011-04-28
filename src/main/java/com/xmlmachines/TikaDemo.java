@@ -8,6 +8,7 @@ import java.text.MessageFormat;
 
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
@@ -24,7 +25,7 @@ public class TikaDemo {
 		ContentHandler textHandler = new BodyContentHandler();
 		Metadata metadata = new Metadata();
 		PDFParser parser = new PDFParser();
-		parser.parse(input, textHandler, metadata);
+		parser.parse(input, textHandler, metadata, new ParseContext());
 		input.close();
 
 		StringBuilder sb = new StringBuilder();
