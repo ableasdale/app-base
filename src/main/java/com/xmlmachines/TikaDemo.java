@@ -1,11 +1,10 @@
 package com.xmlmachines;
 
-import static java.lang.System.out;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
@@ -16,24 +15,40 @@ import org.xml.sax.SAXException;
 
 public class TikaDemo {
 
+	private static String fileName = "src/main/resources/pdfs/postpn228.pdf";
+
 	public static void main(String[] args) throws IOException, SAXException,
 			TikaException {
-		// String fname = "C:/test-doc.pdf";
-		String fname = "src/main/resources/pdfs/postpn228.pdf";
-		InputStream input = new FileInputStream(new File(fname));
+
+		InputStream input = new FileInputStream(new File(fileName));
 		ContentHandler textHandler = new BodyContentHandler();
 		Metadata metadata = new Metadata();
 		PDFParser parser = new PDFParser();
-		// parser.
 		parser.parse(input, textHandler, metadata);
 		input.close();
 
+		StringBuilder sb = new StringBuilder();
+		appendRootStartElement(sb);
 		for (String n : metadata.names()) {
-			out.println("element {\"" + n + "\"} {" + metadata.get(n) + "}");
+			sb.append(constructNode(n, metadata.get(n)));
 		}
-		// args.out.println("Title: " + metadata.get("title"));
-		// out.println("Author: " + metadata.get("Author"));
-		// out.println("content: " + textHandler.toString());
+		sb.append(constructNode("content", textHandler.toString()));
 
+		appendRootEndElement(sb);
+		System.out.println(sb.toString());
+	}
+
+	private static StringBuilder appendRootStartElement(StringBuilder sb) {
+		return sb
+				.append("<pdf xmlns:xmpTPg=\"http://ns.adobe.com/xap/1.0/t/pg/\">\n");
+	}
+
+	private static StringBuilder appendRootEndElement(StringBuilder sb) {
+		return sb.append("</pdf>");
+	}
+
+	private static String constructNode(String nodeName, String nodeValue) {
+		return MessageFormat.format("<{0}>{1}</{2}>\n", nodeName, nodeValue,
+				nodeName);
 	}
 }
