@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //@RunWith(JUnit4ClassRunner.class)
 @RunWith(Suite.class)
 @SuiteClasses({ MarkLogicConnectionTest.class,
-		MLBuildAndConfigurationTest.class })
+		MLBuildAndConfigurationTest.class, MixedDocumentParserTest.class })
 public class TestSuite {
 
 	@BeforeClass
