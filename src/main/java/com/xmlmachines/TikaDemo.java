@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 
+import org.apache.log4j.Logger;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
@@ -15,6 +16,8 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 public class TikaDemo {
+
+	private static final Logger LOG = Logger.getLogger(TikaDemo.class);
 
 	private static String fileName = "src/main/resources/pdfs/postpn228.pdf";
 
@@ -36,7 +39,7 @@ public class TikaDemo {
 		sb.append(constructNode("content", textHandler.toString()));
 
 		appendRootEndElement(sb);
-		System.out.println(sb.toString());
+		LOG.info(sb.toString());
 	}
 
 	private static StringBuilder appendRootStartElement(StringBuilder sb) {
