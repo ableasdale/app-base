@@ -18,7 +18,7 @@ import com.marklogic.xcc.ResultSequence;
 import com.marklogic.xcc.exceptions.RequestException;
 import com.marklogic.xcc.types.XSString;
 import com.marklogic.xcc.types.XdmItem;
-import com.sun.jersey.spi.inject.Inject;
+import com.sun.jersey.api.core.InjectParam;
 import com.xmlmachines.beans.jaxb.ExampleBean;
 
 @Path("/jaxb")
@@ -28,7 +28,7 @@ public class JaxbResource extends BaseResource {
 	private static final Logger LOG = Logger.getLogger(JaxbResource.class
 			.getName());
 
-	@Inject
+	@InjectParam
 	ExampleBean bean;
 
 	@GET
