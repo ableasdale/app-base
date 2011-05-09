@@ -10,7 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 //@RunWith(JUnit4ClassRunner.class)
 @RunWith(Suite.class)
-@SuiteClasses({ XmlRestRouterTest.class, MarkLogicSearchResourceTest.class })
+@SuiteClasses({ XmlRestRouterTest.class, MarkLogicSearchResourceTest.class,
+		JaxbMarshallTest.class })
 public class TestSuite {
 
 	@BeforeClass
