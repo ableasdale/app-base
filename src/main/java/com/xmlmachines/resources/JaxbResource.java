@@ -1,12 +1,15 @@
 package com.xmlmachines.resources;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
 
@@ -143,6 +146,28 @@ public class JaxbResource extends BaseResource {
 			LOG.error(e);
 		}
 		return null;
+	}
+
+	@GET
+	@Path("/context/json")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<ExampleBean> getExampleBeans() {
+		List<ExampleBean> ebs = new ArrayList<ExampleBean>();
+		ExampleBean e = new ExampleBean();
+		e.setText("test json or xml");
+		ebs.add(e);
+		return ebs;
+	}
+
+	@GET
+	@Path("/context/jsononly")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<ExampleBean> getExampleBeansAsJsonOnly() {
+		List<ExampleBean> ebs = new ArrayList<ExampleBean>();
+		ExampleBean e = new ExampleBean();
+		e.setText("test json only");
+		ebs.add(e);
+		return ebs;
 	}
 }
 

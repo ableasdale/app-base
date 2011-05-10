@@ -56,17 +56,17 @@ public class GrizzlyContainerProvider {
 	 * @throws IOException
 	 */
 	public SelectorThread startServer() throws IOException {
-        final Map<String, String> initParams = new HashMap<String, String>();
+		final Map<String, String> initParams = new HashMap<String, String>();
 
-        initParams.put("com.sun.jersey.config.property.packages",
-                "com.xmlmachines.resources;com.xmlmachines.providers");
+		initParams.put("com.sun.jersey.config.property.packages",
+				"com.xmlmachines.resources;com.xmlmachines.providers");
 
-        LOG.debug(MessageFormat.format("Starting grizzly on port {0}", cfg
-                .getHostPort()));
-        threadSelector = GrizzlyWebContainerFactory
-                .create(BASE_URI, initParams);
-        return threadSelector;
-    }
+		LOG.debug(MessageFormat.format("Starting grizzly on port {0}",
+				cfg.getHostPort()));
+		threadSelector = GrizzlyWebContainerFactory
+				.create(BASE_URI, initParams);
+		return threadSelector;
+	}
 
 	/**
 	 * Stops the server and nulls the threadSelector
