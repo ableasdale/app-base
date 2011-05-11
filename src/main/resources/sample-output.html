@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html version="XHTML+RDFa 1.0" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:contact="http://www.w3.org/2000/10/swap/pim/contact#" 
+      xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xml:lang="en">
+<head>
+<title>XHTML 1.0 Strict Example</title>
+<link href="http://fonts.googleapis.com/css?family=News+Cycle" rel="stylesheet" type="text/css" />
+<link href="http://fonts.googleapis.com/css?family=Play:regular,bold" rel="stylesheet" type="text/css" />
+
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="content-language" content="en" />
+<meta name="robots" content="index, follow" />
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" />
+<link rel="alternate" type="application/rss+xml" title="Feed channel of XHTML+RDFa example page" href="http://www.example.com/rss.xml" />
+<meta name="DC.title" content="XHTML+RDFa example" />
+<meta name="DC.subject" content="XHTML+RDFa, semantic web" /> 
+<meta name="DC.description" content="Example for Extensible Hypertext Markup Language + Resource Description Framework – in – attributes." /> 
+<meta name="DC.format" content="application/xhtml+xml" /> 
+<meta name="DC.language" content="en" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link  rel="stylesheet" type="text/css" href="main.css" title="main styles" />
+<link rel="foaf:primaryTopic" type="application/rdf+xml" title="FOAF" href="http://www.example.com/metadata/foaf.rdf" />
+<script type="application/javascript">
+ // <![CDATA[
+ function loadpdf() {
+    console.log("document ready.");
+ 	// document.getElementById("pdf-object").src="http://www.w3.org/TR/xhtml1/xhtml1.pdf";
+ }
+ // ]]>
+ </script>
+<style type="text/css">
+.nc { font-family: 'News Cycle', arial, serif; }
+.play { font-family: 'Play', arial, serif; }
+</style>
+</head>
+<body onload="loadpdf()">
+<h1 class="play">Play webfont</h1>
+<p class="nc">News cycle paragraph text</p>
+<p about=""
+     resource="http://www.w3.org/TR/rdfa-syntax"
+     rel="dc:conformsTo" xmlns:dc="http://purl.org/dc/terms/">
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="http://www.w3.org/Icons/valid-xhtml-rdfa"
+        alt="Valid XHTML + RDFa" height="31" width="88" /></a></p>
+
+<div class="content">
+<p>
+<span property="foaf:name">Alex Bleasdale</span><br />
+<i>XMLMachines</i><br />
+<a title="More about me" rel="rdfs:seeAlso" href="about.htm">More...</a>
+</p>
+<p rel="contact:address">
+123 Main Street <br />
+<a property="contact:city" rel="rdfs:seeAlso" title="London on Wikipedia" resource="http://dbpedia.org/page/London"
+ href="http://en.wikipedia.org/wiki/London">London</a>
+</p>
+<p>
+<span rel="foaf:phone" resource="tel:+4485554444">+44 8555 4444</span>
+</p>
+</div>
+
+<p class="vcard">
+		<a class="url" title="This link will take you to my homepage" href="http://www.alexbleasdale.co.uk">alexbleasdale.co.uk</a> is the website for <a class="email fn" title="Please feel free to email me if you would like more information" href="mailto:info@alexbleasdale.co.uk">Alex Bleasdale</a>, a <span class="title">web developer</span> currently living in <span class="adr"><span class="locality">London</span>, <span class="country-name">England</span></span>.
+	</p>
+
+	<div class="geo">London: 
+		<span class="latitude">51.590432</span> 
+		<span class="longitude">0.024645</span>
+	</div>
+
+</body>
+</html>
