@@ -8,6 +8,7 @@ import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.apache.log4j.Logger;
 
@@ -31,9 +32,10 @@ public final class JAXBContextResolver implements ContextResolver<JAXBContext> {
 
 		PackageNamesScanner pns = new PackageNamesScanner(
 				new String[] { "com.xmlmachines.beans" });
+
 		@SuppressWarnings("unchecked")
 		AnnotationScannerListener asl = new AnnotationScannerListener(
-				XmlRootElement.class); // , XmlType.class
+				XmlRootElement.class, XmlType.class);
 		pns.scan(asl);
 		this.types = new HashSet<Class<?>>(asl.getAnnotatedClasses());
 
@@ -48,4 +50,5 @@ public final class JAXBContextResolver implements ContextResolver<JAXBContext> {
 				types.contains(objectType)));
 		return (types.contains(objectType)) ? context : null;
 	}
+
 }
