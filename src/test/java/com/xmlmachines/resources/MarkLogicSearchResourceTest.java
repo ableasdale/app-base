@@ -4,7 +4,6 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import junit.framework.Assert;
 
-import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,8 +13,10 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 public class MarkLogicSearchResourceTest {
 
-	private static final Logger LOG = Logger
-			.getLogger(MarkLogicSearchResourceTest.class);
+	/*
+	 * private static final Logger LOG = Logger
+	 * .getLogger(MarkLogicSearchResourceTest.class);
+	 */
 
 	static Client client;
 	static WebResource webResource;

@@ -25,7 +25,7 @@ public final class JAXBContextResolver implements ContextResolver<JAXBContext> {
 
 	private final JAXBContext context;
 
-	private final Set<Class<?>> types;
+	private final HashSet<Class<?>> types; // = new HashSet<Class<?>>();
 
 	public JAXBContextResolver() throws Exception {
 		LOG.info("Setting up the JAXBContextResolver");

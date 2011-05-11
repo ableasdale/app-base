@@ -7,7 +7,6 @@ import java.io.InputStream;
 
 import junit.framework.Assert;
 
-import org.apache.log4j.Logger;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
@@ -20,8 +19,10 @@ import org.xml.sax.SAXException;
 
 public class MixedDocumentParserTest {
 
-	private static final Logger LOG = Logger
-			.getLogger(MixedDocumentParserTest.class);
+	/*
+	 * private static final Logger LOG = Logger
+	 * .getLogger(MixedDocumentParserTest.class);
+	 */
 
 	private final Parser parser = new AutoDetectParser();
 
