@@ -148,10 +148,15 @@ public class JaxbResource extends BaseResource {
 		return null;
 	}
 
+	/**
+	 * Currently used for unit tests
+	 * 
+	 * @return
+	 */
 	@GET
 	@Path("/context/json")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<ExampleBean> getExampleBeans() {
+	public List<ExampleBean> getExampleBeanFromList() {
 		List<ExampleBean> ebs = new ArrayList<ExampleBean>();
 		ExampleBean e = new ExampleBean();
 		e.setText("test json or xml");
@@ -159,6 +164,22 @@ public class JaxbResource extends BaseResource {
 		return ebs;
 	}
 
+	@GET
+	@Path("/context/json/multiples")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<ExampleBean> getExampleBeansFromList() {
+		List<ExampleBean> ebs = new ArrayList<ExampleBean>();
+		ExampleBean e = new ExampleBean();
+		e.setText("first child in list");
+		ebs.add(e);
+		ExampleBean e2 = new ExampleBean();
+		e2.setText("second child in list");
+		ebs.add(e2);
+		return ebs;
+	}
+
+	// Service ONLY returns JSON - should 406 if you set an accept header for
+	// "text/plain" or similar
 	@GET
 	@Path("/context/jsononly")
 	@Produces({ MediaType.APPLICATION_JSON })

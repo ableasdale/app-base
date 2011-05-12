@@ -34,6 +34,51 @@ public class JaxbMarshallTest {
 
 	}
 
+	@Test
+	public void testNegotiateContentAsXml() {
+		Client client = Client.create();
+		WebResource webResource = client
+				.resource("http://localhost:8888/jaxb/context/json");
+		String s = webResource.accept("application/xml").get(String.class);
+		LOG.debug(s);
+		Assert.assertTrue(s
+				.contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"));
+	}
+
+	@Test
+	public void testNegotiateContentAsJson() {
+		Client client = Client.create();
+		WebResource webResource = client
+				.resource("http://localhost:8888/jaxb/context/json");
+		String s = webResource.accept("application/json").get(String.class);
+		LOG.debug(s);
+		Assert.assertTrue(s.contains("{\"text\":\"test json or xml\"}"));
+	}
+
+	@Test
+	public void testMultipleXmlChildElementsInRootElement() {
+		Client client = Client.create();
+		WebResource webResource = client
+				.resource("http://localhost:8888/jaxb/context/json/multiples");
+		String s = webResource.accept("application/xml").get(String.class);
+		LOG.debug(s);
+		Assert.assertTrue(s
+				.contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"));
+		Assert.assertTrue(s.contains("<exampleBean><text>first child in list"));
+		Assert.assertTrue(s.contains("<exampleBean><text>second child in list"));
+	}
+
+	@Test
+	public void testMultiplJsonVariablesReturned() {
+		Client client = Client.create();
+		WebResource webResource = client
+				.resource("http://localhost:8888/jaxb/context/json/multiples");
+		String s = webResource.accept("application/json").get(String.class);
+		LOG.debug(s);
+		Assert.assertTrue(s.contains("{\"text\":\"first child in list\"}"));
+		Assert.assertTrue(s.contains("{\"text\":\"second child in list\"}"));
+	}
+
 	// TODO - delete after
 
 	// TODO - Do a hibernate style saveAndUpdate()
