@@ -69,7 +69,7 @@ public class JaxbMarshallTest {
 	}
 
 	@Test
-	public void testMultiplJsonVariablesReturned() {
+	public void testMultiplJsonArrayItemsReturned() {
 		Client client = Client.create();
 		WebResource webResource = client
 				.resource("http://localhost:8888/jaxb/context/json/multiples");
