@@ -38,7 +38,7 @@ public class MLBuildAndConfigurationTest {
 		// Populate
 		TestHelper t = new TestHelper();
 		try {
-			t.processMedlineXML();
+			t.processMedlineXML("xom");
 		} catch (ValidityException e) {
 			LOG.error(e);
 		} catch (ParsingException e) {

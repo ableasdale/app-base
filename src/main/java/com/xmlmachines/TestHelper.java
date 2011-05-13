@@ -19,6 +19,7 @@ import com.xmlmachines.providers.MarkLogicContentSourceProvider;
 public class TestHelper {
 
 	private final Logger LOG = Logger.getLogger(TestHelper.class);
+	private final String RESOURCE_XML_FILE = "src/main/resources/medsamp2011.xml";
 
 	// private final ContentSource cs;
 
@@ -27,17 +28,33 @@ public class TestHelper {
 	 * markLogicContentSource; }
 	 */
 
-	public void processMedlineXML() throws ValidityException, ParsingException,
-			IOException {
-		// LOG.info("processing medline...");
-		Builder builder = new Builder();
-		Document doc = builder.build(new File(
-				"src/main/resources/medsamp2011.xml"));
-		// LOG.info("got doc...");
-		// System.out.println(doc.toXML());
-		processDocumentRoot(doc.getRootElement());
+	public void processMedlineXML(String mode) throws ValidityException,
+			ParsingException, IOException {
+		if ("xom".equals(mode)) {
+			// LOG.info("processing medline...");
+			Builder builder = new Builder();
+			Document doc = builder.build(new File(RESOURCE_XML_FILE));
+			// LOG.info("got doc...");
+			// System.out.println(doc.toXML());
+			processDocumentRoot(doc.getRootElement());
+		} else if ("vtd-xml".equals(mode)) {
+			// TODO - complete this method
+		} else {
+			LOG.error("Missing Parameter : you need to specify a mode for the processor to use (xom | vtd-xml)");
+		}
+
 	}
 
+	/**
+	 * The vtd-xml mode
+	 * 
+	 */
+
+	/**
+	 * The XOM mode
+	 * 
+	 * @param root
+	 */
 	private void processDocumentRoot(Element root) {
 		Elements elems = root.getChildElements("MedlineCitation");
 		LOG.info("Got " + elems.size() + " items for insert");
