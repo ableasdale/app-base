@@ -9,14 +9,14 @@ import java.util.Map;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.log4j.Logger;
+import org.glassfish.grizzly.http.server.HttpServer;
 
-import com.sun.grizzly.http.SelectorThread;
-import com.sun.jersey.api.container.grizzly.GrizzlyWebContainerFactory;
+import com.sun.jersey.api.container.grizzly2.GrizzlyWebContainerFactory;
 import com.xmlmachines.beans.ApplicationServerConfig;
 
 public class GrizzlyContainerProvider {
 
-	private SelectorThread threadSelector;
+	private HttpServer httpServer;
 	private final ApplicationServerConfig cfg;
 	private final int port;
 	private final URI BASE_URI;
@@ -28,7 +28,7 @@ public class GrizzlyContainerProvider {
 		LOG.info("Creating the GrizzlyContainerProvider instance");
 		cfg = ConfigurationProvider.getInstance().getApplicationServerConfig();
 		port = Integer.parseInt(cfg.getHostPort());
-		threadSelector = null;
+		// = null;
 		BASE_URI = getBaseURI();
 	}
 
@@ -50,12 +50,12 @@ public class GrizzlyContainerProvider {
 	}
 
 	/**
-	 * Initialises the SelectorThread and creates a ContainerFactory
+	 * Creates a ContainerFactory
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
-	public SelectorThread startServer() throws IOException {
+	public void startServer() throws IOException {
 		final Map<String, String> initParams = new HashMap<String, String>();
 
 		initParams.put("com.sun.jersey.config.property.packages",
@@ -63,9 +63,8 @@ public class GrizzlyContainerProvider {
 
 		LOG.debug(MessageFormat.format("Starting grizzly on port {0}",
 				cfg.getHostPort()));
-		threadSelector = GrizzlyWebContainerFactory
-				.create(BASE_URI, initParams);
-		return threadSelector;
+		httpServer = GrizzlyWebContainerFactory.create(BASE_URI, initParams);
+		httpServer.start();
 	}
 
 	/**
@@ -76,11 +75,7 @@ public class GrizzlyContainerProvider {
 	 */
 	public void stopServer() {
 		LOG.info("Attempting to stop Grizzly container");
-		if (threadSelector != null) {
-			threadSelector.stopEndpoint();
-			LOG.info("Grizzly container stopped successfully");
-			threadSelector = null;
-		}
+		httpServer.stop();
 	}
 
 	/**
@@ -91,10 +86,10 @@ public class GrizzlyContainerProvider {
 	 * @return
 	 * @throws IOException
 	 */
-	public SelectorThread restartServer() throws IOException {
+	public void restartServer() throws IOException {
 		LOG.info("Restarting Grizzly container");
 		stopServer();
-		return startServer();
+		startServer();
 	}
 
 }

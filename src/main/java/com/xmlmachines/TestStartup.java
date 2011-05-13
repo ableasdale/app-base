@@ -9,6 +9,7 @@ public class TestStartup {
 	public static void main(String[] args) throws IOException, RequestException {
 		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance()
 				.startServer();
+		System.in.read();
 
 		/*
 		 * Session s = MarkLogicContentSourceProvider.getInstance()

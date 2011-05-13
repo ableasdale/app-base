@@ -99,10 +99,10 @@ public class JaxbResource extends BaseResource {
 		String xml = marshallBeanToXmlString(bean);
 		createDocumentInMarkLogic(guid, xml);
 
-		return Response
-				.ok(MessageFormat.format("{0} has been stored",
-						generateXmlDocumentUri(guid)))
-				.header("Transfer-Encoding", "binary").build();
+		return Response.ok(
+				MessageFormat.format("{0} has been stored",
+						generateXmlDocumentUri(guid))).build();
+		// .header("Transfer-Encoding", "binary")
 	}
 
 	/**
@@ -115,16 +115,17 @@ public class JaxbResource extends BaseResource {
 	@POST
 	@Path("save/{userInput}")
 	public Response persistBean(@PathParam("userInput") String userInput) {
-
+		LOG.info("user input is: " + userInput);
 		bean.setText(userInput);
 		// TODO - InputStream instead?
 		String xml = marshallBeanToXmlString(bean);
+		LOG.info("XML is " + xml);
+		LOG.info("about to store doc");
 		createDocumentInMarkLogic(userInput, xml);
-
-		return Response
-				.ok(MessageFormat.format("{0} has been stored",
-						generateXmlDocumentUri(userInput)))
-				.header("Transfer-Encoding", "binary").build();
+		LOG.info("doc should now be stored");
+		return Response.ok(
+				generateXmlDocumentUri(userInput) + " has been stored").build();
+		// .header("Transfer-Encoding", "binary")
 	}
 
 	/**

@@ -48,15 +48,16 @@
 	<dependencies>
 		<!-- <dependency> <groupId>org.glassfish.grizzly</groupId> <artifactId>grizzly-framework</artifactId> 
 			<version>1.9.18-m</version> </dependency> -->
+
 		<dependency>
-			<groupId>com.sun.grizzly</groupId>
-			<artifactId>grizzly-webserver</artifactId>
-			<version>1.9.18-m</version>
+			<groupId>org.glassfish.grizzly</groupId>
+			<artifactId>grizzly-framework</artifactId>
+			<version>2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.marklogic</groupId>
 			<artifactId>marklogic-xcc</artifactId>
-			<version>4.2.3</version>
+			<version>4.2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>xom</groupId>
@@ -66,7 +67,12 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-bundle</artifactId>
-			<version>1.6</version>
+			<version>1.7-ea07</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-grizzly2</artifactId>
+			<version>1.7-ea07</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -167,5 +173,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
