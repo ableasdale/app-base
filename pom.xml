@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>app-base</groupId>
 	<artifactId>app-base</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>Application Base</name>
 	<description>Common Components for building an XML Driven Web Application</description>
 	<properties>
@@ -46,9 +46,16 @@
 	</repositories>
 
 	<dependencies>
-		<!-- <dependency> <groupId>org.glassfish.grizzly</groupId> <artifactId>grizzly-framework</artifactId> 
-			<version>1.9.18-m</version> </dependency> -->
-
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-bundle</artifactId>
+			<version>1.7-ea07</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-grizzly2</artifactId>
+			<version>1.7-ea07</version>
+		</dependency>
 		<dependency>
 			<groupId>org.glassfish.grizzly</groupId>
 			<artifactId>grizzly-framework</artifactId>
@@ -65,16 +72,6 @@
 			<version>1.2.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-bundle</artifactId>
-			<version>1.7-ea07</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-grizzly2</artifactId>
-			<version>1.7-ea07</version>
-		</dependency>
-		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
@@ -83,6 +80,16 @@
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>nux</groupId>
@@ -94,15 +101,11 @@
 			<artifactId>saxon</artifactId>
 			<version>9.1.0.8</version>
 		</dependency>
-		<dependency>
-			<groupId>commons-configuration</groupId>
-			<artifactId>commons-configuration</artifactId>
-			<version>1.6</version>
-		</dependency>
+
 		<dependency>
 			<groupId>asm</groupId>
 			<artifactId>asm</artifactId>
-			<version>3.2</version>
+			<version>3.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -139,11 +142,6 @@
 			<groupId>com.ximpleware</groupId>
 			<artifactId>vtd-xml</artifactId>
 			<version>2.10</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.0.1</version>
 		</dependency>
 	</dependencies>
 
