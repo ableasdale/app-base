@@ -2,11 +2,9 @@ package com.xmlmachines;
 
 import java.io.IOException;
 
-import com.marklogic.xcc.exceptions.RequestException;
-
 public class TestStartup {
 
-	public static void main(String[] args) throws IOException, RequestException {
+	public static void main(String[] args) throws IOException {
 		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance()
 				.startServer();
 		System.in.read();

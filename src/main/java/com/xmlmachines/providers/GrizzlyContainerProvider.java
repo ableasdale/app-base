@@ -28,7 +28,6 @@ public class GrizzlyContainerProvider {
 		LOG.info("Creating the GrizzlyContainerProvider instance");
 		cfg = ConfigurationProvider.getInstance().getApplicationServerConfig();
 		port = Integer.parseInt(cfg.getHostPort());
-		// = null;
 		BASE_URI = getBaseURI();
 	}
 
@@ -64,6 +63,10 @@ public class GrizzlyContainerProvider {
 		LOG.info(MessageFormat.format("Starting grizzly on port {0}",
 				cfg.getHostPort()));
 		httpServer = GrizzlyWebContainerFactory.create(BASE_URI, initParams);
+		LOG.info(MessageFormat.format(
+				"Server Info - ServerName: {0} - Version: {1}", httpServer
+						.getServerConfiguration().getHttpServerName(),
+				httpServer.getServerConfiguration().getHttpServerVersion()));
 		httpServer.start();
 	}
 
