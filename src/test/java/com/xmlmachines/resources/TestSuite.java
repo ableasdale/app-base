@@ -2,6 +2,7 @@ package com.xmlmachines.resources;
 
 import java.io.IOException;
 
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -12,10 +13,9 @@ import org.junit.runners.Suite.SuiteClasses;
 		JaxbMarshallTest.class })
 public class TestSuite {
 
-	// @BeforeClass
+	@BeforeClass
 	public static void setUp() throws IOException {
-		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance()
-				.startServer();
+		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance();
 	}
 
 	// @AfterClass

@@ -2,6 +2,7 @@ package com.xmlmachines.tests;
 
 import java.io.IOException;
 
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -12,16 +13,13 @@ import org.junit.runners.Suite.SuiteClasses;
 		MLBuildAndConfigurationTest.class, MixedDocumentParserTest.class })
 public class TestSuite {
 
-	// @BeforeClass
+	@BeforeClass
 	public static void setUp() throws IOException {
-		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance()
-				.startServer();
+		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance();
 	}
 
 	// @AfterClass
 	public static void tearDown() {
-		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance()
-				.stopServer();
 	}
 
 }

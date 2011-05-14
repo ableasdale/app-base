@@ -5,8 +5,7 @@ import java.io.IOException;
 public class TestStartup {
 
 	public static void main(String[] args) throws IOException {
-		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance()
-				.startServer();
+		com.xmlmachines.providers.GrizzlyContainerProvider.getInstance();
 		System.in.read();
 
 		/*
