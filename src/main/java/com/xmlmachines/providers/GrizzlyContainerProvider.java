@@ -29,6 +29,22 @@ public class GrizzlyContainerProvider {
 		cfg = ConfigurationProvider.getInstance().getApplicationServerConfig();
 		port = Integer.parseInt(cfg.getHostPort());
 		BASE_URI = getBaseURI();
+		Map<String, String> initParams = new HashMap<String, String>();
+		initParams.put("com.sun.jersey.config.property.packages",
+				"com.xmlmachines.resources;com.xmlmachines.providers");
+
+		try {
+			LOG.info(MessageFormat.format("Starting grizzly on port {0}",
+					cfg.getHostPort()));
+			httpServer = GrizzlyWebContainerFactory
+					.create(BASE_URI, initParams);
+		} catch (IOException e) {
+			LOG.error(e);
+		}
+		LOG.info(MessageFormat.format(
+				"Server Info - ServerName: {0} - Version: {1}", httpServer
+						.getServerConfiguration().getHttpServerName(),
+				httpServer.getServerConfiguration().getHttpServerVersion()));
 	}
 
 	private static class GrizzlyContainerProviderHolder {
@@ -55,19 +71,13 @@ public class GrizzlyContainerProvider {
 	 * @throws IOException
 	 */
 	public void startServer() throws IOException {
-		final Map<String, String> initParams = new HashMap<String, String>();
-
-		initParams.put("com.sun.jersey.config.property.packages",
-				"com.xmlmachines.resources;com.xmlmachines.providers");
-
-		LOG.info(MessageFormat.format("Starting grizzly on port {0}",
-				cfg.getHostPort()));
-		httpServer = GrizzlyWebContainerFactory.create(BASE_URI, initParams);
-		LOG.info(MessageFormat.format(
-				"Server Info - ServerName: {0} - Version: {1}", httpServer
-						.getServerConfiguration().getHttpServerName(),
-				httpServer.getServerConfiguration().getHttpServerVersion()));
-		httpServer.start();
+		if (httpServer.isStarted()) {
+			// restartServer();
+			LOG.info("Server has been started and is available on "
+					+ cfg.getHostPort());
+		} else {
+			httpServer.start();
+		}
 	}
 
 	/**
