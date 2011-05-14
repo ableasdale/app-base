@@ -61,7 +61,7 @@ public class GrizzlyContainerProvider {
 		initParams.put("com.sun.jersey.config.property.packages",
 				"com.xmlmachines.resources;com.xmlmachines.providers");
 
-		LOG.debug(MessageFormat.format("Starting grizzly on port {0}",
+		LOG.info(MessageFormat.format("Starting grizzly on port {0}",
 				cfg.getHostPort()));
 		httpServer = GrizzlyWebContainerFactory.create(BASE_URI, initParams);
 		httpServer.start();
