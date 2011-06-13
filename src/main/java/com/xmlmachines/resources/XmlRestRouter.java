@@ -15,7 +15,6 @@ import com.xmlmachines.providers.IOUtilsProvider;
  * Basic XML response resource pattern
  * 
  * @author Alex Bleasdale
- * 
  */
 @Path("/xml")
 public class XmlRestRouter {
