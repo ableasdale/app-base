@@ -5,7 +5,7 @@ xquery version "1.0-ml";
 import module namespace info = "http://marklogic.com/appservices/infostudio" at "/MarkLogic/appservices/infostudio/info.xqy";
 import module namespace admin = "http://marklogic.com/xdmp/admin" at "/MarkLogic/admin.xqy";
 
-declare variable $db as xs:string := "BasicTests";        
+declare variable $db as xs:string := "AppBaseTests";        
 declare variable $config := admin:get-configuration();
 
 (try {

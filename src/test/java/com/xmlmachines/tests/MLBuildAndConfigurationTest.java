@@ -53,8 +53,11 @@ public class MLBuildAndConfigurationTest {
 	public void wasIngestCompleted() throws RequestException {
 		Session s = MarkLogicContentSourceProvider.getInstance()
 				.getProductionContentSource().newSession(Consts.UNIT_TEST_DB);
-		Request r = s.newAdhocQuery("xdmp:estimate(doc())");
+		Request r = s.newAdhocQuery("xdmp:database()");
 		ResultSequence rs = s.submitRequest(r);
+		LOG.info("Database id: " + rs.asString());
+		r = s.newAdhocQuery("xdmp:estimate(doc())");
+		rs = s.submitRequest(r);
 		Assert.assertEquals("156", rs.asString());
 		s.close();
 	}

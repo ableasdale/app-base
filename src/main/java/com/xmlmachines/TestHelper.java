@@ -83,7 +83,7 @@ public class TestHelper {
 			 */
 			queue.add(new XccProcess(adHocQueryTmpl(sb.toString(), elems.get(i)
 					.toXML()), MarkLogicContentSourceProvider.getInstance()
-					.getProductionContentSource().newSession("BasicTests")));
+					.getProductionContentSource().newSession("AppBaseTests")));
 
 		}
 		for (XccProcess xp : queue) {
