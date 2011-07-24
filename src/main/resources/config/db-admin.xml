@@ -19,7 +19,7 @@
 
 	<application-settings>
 		<hostname>127.0.0.1</hostname>
-		<port>8888</port>
+		<port>9999</port>
 		<resource-folder-path>resources</resource-folder-path>
 	</application-settings>
 
