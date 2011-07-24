@@ -19,7 +19,7 @@ public class XmlRestRouterTest {
 	public static void setUp() throws Exception {
 		client = Client.create();
 		// TODO - hard coded...
-		webResource = client.resource("http://localhost:9999/xml");
+		webResource = client.resource("http://localhost:9995/xml");
 		// webResource2 = client.resource("http://localhost:8888/xp/xpl/pipe");
 	}
 
