@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.text.MessageFormat;
-import java.util.UUID;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.log4j.Logger;
@@ -30,7 +29,7 @@ import com.ximpleware.XPathEvalException;
 import com.ximpleware.XPathParseException;
 import com.xmlmachines.TestExtractXML;
 
-public class PrepareXMLForIngest {
+public class PrepareMedlineXMLForIngest {
 
 	private final static Logger LOG = Logger.getLogger(TestExtractXML.class);
 	private final static String path = "/home/ableasdale/workspace/medline-data/";
@@ -72,42 +71,37 @@ public class PrepareXMLForIngest {
 		try {
 			processAsXml(f);
 		} catch (EncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logException(e);
 		} catch (EOFException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logException(e);
 		} catch (EntityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logException(e);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logException(e);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logException(e);
 		} catch (XPathParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logException(e);
 		} catch (XPathEvalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logException(e);
 		} catch (NavException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logException(e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logException(e);
 		}
+	}
+
+	private static void logException(Exception e) {
+		LOG.error("Error encountered" + e.getMessage(), e);
 	}
 
 	private static void processAsXml(File f) throws FileNotFoundException,
 			IOException, EncodingException, EOFException, EntityException,
 			ParseException, XPathParseException, XPathEvalException,
 			NavException {
+		Session session = cs.newSession();
 
 		int count = 0;
-
 		FileInputStream fis = new FileInputStream(f);
 		byte[] b = new byte[(int) f.length()];
 		fis.read(b);
@@ -115,7 +109,6 @@ public class PrepareXMLForIngest {
 		vg.setDoc(b);
 		vg.parse(true);
 
-		Session session = cs.newSession();
 		VTDNav vn = vg.getNav();
 		AutoPilot ap = new AutoPilot();
 		ap.bind(vn);
@@ -131,8 +124,9 @@ public class PrepareXMLForIngest {
 			baos.flush();
 			try {
 				ContentCreateOptions opts = new ContentCreateOptions();
-				Content c = ContentFactory.newContent("/" + UUID.randomUUID()
-						+ ".xml", baos.toByteArray(), opts);
+				Content c = ContentFactory.newContent(
+						String.format("%05d", count) + "-" + f.getName(),
+						baos.toByteArray(), opts);
 				session.insertContent(c);
 			} catch (RequestException e) {
 				LOG.error("Unable to perform insert on one document", e);
