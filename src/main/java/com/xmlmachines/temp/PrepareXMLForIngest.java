@@ -11,9 +11,11 @@ import java.util.UUID;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.log4j.Logger;
 
+import com.marklogic.xcc.Content;
+import com.marklogic.xcc.ContentCreateOptions;
+import com.marklogic.xcc.ContentFactory;
 import com.marklogic.xcc.ContentSource;
 import com.marklogic.xcc.ContentSourceFactory;
-import com.marklogic.xcc.Request;
 import com.marklogic.xcc.Session;
 import com.marklogic.xcc.exceptions.RequestException;
 import com.ximpleware.AutoPilot;
@@ -127,22 +129,19 @@ public class PrepareXMLForIngest {
 			baos.write(ba, offset, len);
 			baos.flush();
 			Session session = null;
-			Request request = null;
 			try {
 				session = cs.newSession();
-				request = session.newAdhocQuery("xdmp:document-insert(\"/"
-						+ UUID.randomUUID() + ".xml\", "
-						+ baos.toString("utf-8") + ")");
-				session.submitRequest(request);
+				ContentCreateOptions opts = new ContentCreateOptions();
+				Content c = ContentFactory.newContent("/" + UUID.randomUUID()
+						+ ".xml", baos.toByteArray(), opts);
+				session.insertContent(c);
 			} catch (RequestException e) {
 				LOG.error("Unable to perform insert on one document", e);
-				LOG.debug(request);
 			} finally {
 				session.close();
 			}
-
 			count++;
 		}
-		LOG.info(MessageFormat.format("Total: {0}", count));
+		LOG.info(MessageFormat.format("Processed {0} documents", count));
 	}
 }
