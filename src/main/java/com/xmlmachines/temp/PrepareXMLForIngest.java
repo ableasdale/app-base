@@ -115,6 +115,7 @@ public class PrepareXMLForIngest {
 		vg.setDoc(b);
 		vg.parse(true);
 
+		Session session = cs.newSession();
 		VTDNav vn = vg.getNav();
 		AutoPilot ap = new AutoPilot();
 		ap.bind(vn);
@@ -128,20 +129,17 @@ public class PrepareXMLForIngest {
 			int len = (int) (l >> 32);
 			baos.write(ba, offset, len);
 			baos.flush();
-			Session session = null;
 			try {
-				session = cs.newSession();
 				ContentCreateOptions opts = new ContentCreateOptions();
 				Content c = ContentFactory.newContent("/" + UUID.randomUUID()
 						+ ".xml", baos.toByteArray(), opts);
 				session.insertContent(c);
 			} catch (RequestException e) {
 				LOG.error("Unable to perform insert on one document", e);
-			} finally {
-				session.close();
 			}
 			count++;
 		}
+		session.close();
 		LOG.info(MessageFormat.format("Processed {0} documents", count));
 	}
 }
