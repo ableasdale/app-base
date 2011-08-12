@@ -48,6 +48,7 @@ public class PrepareXMLForIngest {
 		for (File f : listOfFiles) {
 			if (f.isFile()) {
 				if (f.getName().endsWith(".xml")) {
+					// TODO - kick off a separate Thread for each of these...
 					processXmlDocument(f);
 				}
 			}
@@ -125,15 +126,17 @@ public class PrepareXMLForIngest {
 			int len = (int) (l >> 32);
 			baos.write(ba, offset, len);
 			baos.flush();
-
-			Session session = cs.newSession();
-			Request request = session.newAdhocQuery("xdmp:document-insert(\"/"
-					+ UUID.randomUUID() + ".xml\", " + baos.toString("utf-8")
-					+ ")");
+			Session session = null;
+			Request request = null;
 			try {
+				session = cs.newSession();
+				request = session.newAdhocQuery("xdmp:document-insert(\"/"
+						+ UUID.randomUUID() + ".xml\", "
+						+ baos.toString("utf-8") + ")");
 				session.submitRequest(request);
 			} catch (RequestException e) {
-				LOG.error("Unable to connect ", e);
+				LOG.error("Unable to perform insert on one document", e);
+				LOG.debug(request);
 			} finally {
 				session.close();
 			}
