@@ -37,7 +37,7 @@ public class PrepareMedlineXMLForIngest {
 	private static ContentSource cs;
 
 	public static void main(String[] s) throws Exception {
-
+		PrepareMedlineXMLForIngest ingest = new PrepareMedlineXMLForIngest();
 		URI uri = new URI(uriStr);
 		cs = ContentSourceFactory.newContentSource(uri);
 
@@ -49,8 +49,8 @@ public class PrepareMedlineXMLForIngest {
 		for (File f : listOfFiles) {
 			if (f.isFile()) {
 				if (f.getName().endsWith(".xml")) {
-					// TODO - kick off a separate Thread for each of these...
-					processXmlDocument(f);
+					XmlProcessorThread xpt = ingest.new XmlProcessorThread(f);
+					new Thread(xpt).start();
 				}
 			}
 			/*
@@ -59,36 +59,6 @@ public class PrepareMedlineXMLForIngest {
 			 */
 		}
 
-	}
-
-	private static void processZipFile(File f) {
-		LOG.info("Processing: " + f.getName());
-		// TODO - low priority
-	}
-
-	private static void processXmlDocument(File f) {
-		LOG.info("Processing document: " + f.getName());
-		try {
-			processAsXml(f);
-		} catch (EncodingException e) {
-			logException(e);
-		} catch (EOFException e) {
-			logException(e);
-		} catch (EntityException e) {
-			logException(e);
-		} catch (FileNotFoundException e) {
-			logException(e);
-		} catch (ParseException e) {
-			logException(e);
-		} catch (XPathParseException e) {
-			logException(e);
-		} catch (XPathEvalException e) {
-			logException(e);
-		} catch (NavException e) {
-			logException(e);
-		} catch (IOException e) {
-			logException(e);
-		}
 	}
 
 	private static void logException(Exception e) {
@@ -129,11 +99,35 @@ public class PrepareMedlineXMLForIngest {
 						baos.toByteArray(), opts);
 				session.insertContent(c);
 			} catch (RequestException e) {
-				LOG.error("Unable to perform insert on one document", e);
+				logException(e);
 			}
 			count++;
 		}
 		session.close();
 		LOG.info(MessageFormat.format("Processed {0} documents", count));
+	}
+
+	public class XmlProcessorThread implements Runnable {
+
+		File file;
+
+		public XmlProcessorThread(File f) {
+			this.file = f;
+			LOG.info(MessageFormat.format("Processing file: {0}",
+					file.getName()));
+		}
+
+		// private final BoundRequestBuilder r;
+
+		@Override
+		public void run() {
+			try {
+				processAsXml(file);
+			} catch (Exception e) {
+				logException(e);
+			}
+			LOG.debug(MessageFormat.format("Ingest completed for {0}",
+					file.getName()));
+		}
 	}
 }
