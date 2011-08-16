@@ -27,14 +27,13 @@ import com.ximpleware.VTDGen;
 import com.ximpleware.VTDNav;
 import com.ximpleware.XPathEvalException;
 import com.ximpleware.XPathParseException;
-import com.xmlmachines.TestExtractXML;
 
 /**
  * Prepare 60,000 Medline docs for db ingest
  * 
- * Takes around 76 seconds to ingest 60K docs using vtd-xml and 2 Threads to
- * ingest the content
- * 
+ * Takes around 76 seconds on a dual core laptop to ingest 60K docs using
+ * vtd-xml and 2 XCC Session Threads (for 2 sample docs, each containing 30,000
+ * records) to ingest the content
  * 
  * @author ableasdale
  * 
@@ -43,7 +42,8 @@ import com.xmlmachines.TestExtractXML;
 public class PrepareMedlineXMLForIngest {
 
 	private static final String MEDLINE_CITATION_XPATH = "/MedlineCitationSet/MedlineCitation";
-	private final static Logger LOG = Logger.getLogger(TestExtractXML.class);
+	private final static Logger LOG = Logger
+			.getLogger(PrepareMedlineXMLForIngest.class);
 	private final static String SRC_FOLDER = "/home/ableasdale/workspace/medline-data/";
 	private final static String XCC_URI = "xcc://admin:admin@localhost:8010/Medline";
 	private static ContentSource cs;
@@ -99,16 +99,15 @@ public class PrepareMedlineXMLForIngest {
 			baos.flush();
 			String docUri = MessageFormat.format("{0}-{1}",
 					String.format("%05d", count), f.getName());
-			insertDocumentIntoMarkLogic(docUri, f, session, opts, baos);
+			insertDocumentIntoMarkLogic(docUri, session, opts, baos);
 			count++;
 		}
 		session.close();
 		LOG.info(MessageFormat.format("Processed {0} documents", count));
 	}
 
-	private void insertDocumentIntoMarkLogic(String docUri, File f,
-			Session session, ContentCreateOptions opts,
-			ByteArrayOutputStream baos) {
+	private void insertDocumentIntoMarkLogic(String docUri, Session session,
+			ContentCreateOptions opts, ByteArrayOutputStream baos) {
 		try {
 			Content c = ContentFactory.newContent(docUri, baos.toByteArray(),
 					opts);
