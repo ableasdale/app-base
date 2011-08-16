@@ -29,47 +29,52 @@ import com.ximpleware.XPathEvalException;
 import com.ximpleware.XPathParseException;
 import com.xmlmachines.TestExtractXML;
 
+/**
+ * Prepare 60,000 Medline docs for db ingest
+ * 
+ * Takes around 76 seconds to ingest 60K docs using vtd-xml and 2 Threads to
+ * ingest the content
+ * 
+ * 
+ * @author ableasdale
+ * 
+ */
+
 public class PrepareMedlineXMLForIngest {
 
+	private static final String MEDLINE_CITATION_XPATH = "/MedlineCitationSet/MedlineCitation";
 	private final static Logger LOG = Logger.getLogger(TestExtractXML.class);
-	private final static String path = "/home/ableasdale/workspace/medline-data/";
-	private final static String uriStr = "xcc://admin:admin@localhost:8010/Medline";
+	private final static String SRC_FOLDER = "/home/ableasdale/workspace/medline-data/";
+	private final static String XCC_URI = "xcc://admin:admin@localhost:8010/Medline";
 	private static ContentSource cs;
 
 	public static void main(String[] s) throws Exception {
 		PrepareMedlineXMLForIngest ingest = new PrepareMedlineXMLForIngest();
-		URI uri = new URI(uriStr);
+		URI uri = new URI(XCC_URI);
 		cs = ContentSourceFactory.newContentSource(uri);
 
-		LOG.info("Scanning folder: " + path);
-		// for all xml files in folder do
-		File folder = new File(path);
+		LOG.info(MessageFormat.format("Scanning folder: {0}", SRC_FOLDER));
+		File folder = new File(SRC_FOLDER);
 		File[] listOfFiles = folder.listFiles();
 
 		for (File f : listOfFiles) {
-			if (f.isFile()) {
-				if (f.getName().endsWith(".xml")) {
-					XmlProcessorThread xpt = ingest.new XmlProcessorThread(f);
-					new Thread(xpt).start();
-				}
+			if (f.isFile() && f.getName().endsWith(".xml")) {
+				XmlProcessorThread xpt = ingest.new XmlProcessorThread(f);
+				new Thread(xpt).start();
 			}
-			/*
-			 * else if (listOfFiles[i].isDirectory()) {
-			 * System.out.println("Directory " + listOfFiles[i].getName()); }
-			 */
 		}
-
 	}
 
-	private static void logException(Exception e) {
+	private void logException(Exception e) {
 		LOG.error("Error encountered" + e.getMessage(), e);
 	}
 
-	private static void processAsXml(File f) throws FileNotFoundException,
+	private void processAsXml(File f) throws FileNotFoundException,
 			IOException, EncodingException, EOFException, EntityException,
 			ParseException, XPathParseException, XPathEvalException,
 			NavException {
 		Session session = cs.newSession();
+		ContentCreateOptions opts = new ContentCreateOptions();
 
 		int count = 0;
 		FileInputStream fis = new FileInputStream(f);
@@ -83,7 +88,7 @@ public class PrepareMedlineXMLForIngest {
 		AutoPilot ap = new AutoPilot();
 		ap.bind(vn);
 		byte[] ba = vn.getXML().getBytes();
-		ap.selectXPath("/MedlineCitationSet/MedlineCitation");
+		ap.selectXPath(MEDLINE_CITATION_XPATH);
 		int i = -1;
 		while ((i = ap.evalXPath()) != -1) {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -92,19 +97,25 @@ public class PrepareMedlineXMLForIngest {
 			int len = (int) (l >> 32);
 			baos.write(ba, offset, len);
 			baos.flush();
-			try {
-				ContentCreateOptions opts = new ContentCreateOptions();
-				Content c = ContentFactory.newContent(
-						String.format("%05d", count) + "-" + f.getName(),
-						baos.toByteArray(), opts);
-				session.insertContent(c);
-			} catch (RequestException e) {
-				logException(e);
-			}
+			String docUri = MessageFormat.format("{0}-{1}",
+					String.format("%05d", count), f.getName());
+			insertDocumentIntoMarkLogic(docUri, f, session, opts, baos);
 			count++;
 		}
 		session.close();
 		LOG.info(MessageFormat.format("Processed {0} documents", count));
+	}
+
+	private void insertDocumentIntoMarkLogic(String docUri, File f,
+			Session session, ContentCreateOptions opts,
+			ByteArrayOutputStream baos) {
+		try {
+			Content c = ContentFactory.newContent(docUri, baos.toByteArray(),
+					opts);
+			session.insertContent(c);
+		} catch (RequestException e) {
+			logException(e);
+		}
 	}
 
 	public class XmlProcessorThread implements Runnable {
@@ -113,11 +124,9 @@ public class PrepareMedlineXMLForIngest {
 
 		public XmlProcessorThread(File f) {
 			this.file = f;
-			LOG.info(MessageFormat.format("Processing file: {0}",
+			LOG.debug(MessageFormat.format("Processing file: {0}",
 					file.getName()));
 		}
-
-		// private final BoundRequestBuilder r;
 
 		@Override
 		public void run() {
