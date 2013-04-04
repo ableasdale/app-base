@@ -88,12 +88,21 @@ public class MLBuildAndConfigurationTest {
 	public void isCollectionLexiconAvailable() throws RequestException {
 		Session s = MarkLogicContentSourceProvider.getInstance()
 				.getProductionContentSource().newSession(Consts.UNIT_TEST_DB);
-		Request r = s.newAdhocQuery("count(cts:collections())");
-		ResultSequence rs = s.submitRequest(r);
-		// LOG.info(rs.asString());
-		Assert.assertEquals(1, rs.size());
-		Assert.assertEquals("0", rs.asString());
-		s.close();
+
+        Request r = s.newAdhocQuery("count(cts:collections())");
+        ResultSequence rs = s.submitRequest(r);
+        Assert.assertEquals("0", rs.asString());
+
+        Request r1 = s.newAdhocQuery("xdmp:document-add-collections(xdmp:node-uri(doc()[1]), 'test')");
+        ResultSequence rs1 = s.submitRequest(r1);
+        ResultSequence rs2 = s.submitRequest(r);
+
+        Assert.assertEquals(1, rs2.size());
+        Assert.assertEquals("1", rs2.asString());
+
+        Request r2 = s.newAdhocQuery("xdmp:document-remove-collections(xdmp:node-uri(doc()[1]), 'test')");
+        ResultSequence rs3 = s.submitRequest(r);
+        s.close();
 	}
 
 	@Test
@@ -103,7 +112,7 @@ public class MLBuildAndConfigurationTest {
 		Request r = s
 				.newAdhocQuery("for $doc in doc()/MedlineCitation/@Status[. ne 'MEDLINE']\nreturn (xdmp:document-add-collections(xdmp:node-uri($doc), 'not-medline'), <done/>)");
 		ResultSequence rs = s.submitRequest(r);
-		// LOG.info(rs.asString());
+		LOG.info(rs.asString());
 		Assert.assertEquals(21, rs.size());
 		s.close();
 	}
@@ -112,11 +121,20 @@ public class MLBuildAndConfigurationTest {
 	public void doesDatabaseContainOneCollection() throws RequestException {
 		Session s = MarkLogicContentSourceProvider.getInstance()
 				.getProductionContentSource().newSession(Consts.UNIT_TEST_DB);
-		Request r = s.newAdhocQuery("count(cts:collections())");
-		ResultSequence rs = s.submitRequest(r);
-		// LOG.info(rs.asString());
-		Assert.assertEquals(1, rs.size());
-		Assert.assertEquals("1", rs.asString());
+
+        Request r = s.newAdhocQuery("count(cts:collections())");
+        ResultSequence rs = s.submitRequest(r);
+        Assert.assertEquals("0", rs.asString());
+
+        Request r1 = s.newAdhocQuery("xdmp:document-add-collections(xdmp:node-uri(doc()[1]), 'test')");
+		ResultSequence rs1 = s.submitRequest(r1);
+        ResultSequence rs2 = s.submitRequest(r);
+
+		Assert.assertEquals(1, rs2.size());
+		Assert.assertEquals("1", rs2.asString());
+
+        Request r2 = s.newAdhocQuery("xdmp:document-remove-collections(xdmp:node-uri(doc()[1]), 'test')");
+        ResultSequence rs3 = s.submitRequest(r);
 		s.close();
 	}
 
