@@ -93,10 +93,9 @@ public class JaxbResource extends BaseResource {
 		String guid = generateGuid();
 		LOG.debug(guid);
 		bean.setText(guid);
-
 		// TODO - InputStream instead?
-
 		String xml = marshallBeanToXmlString(bean);
+        LOG.info("** Marshalled ** " + xml);
 		createDocumentInMarkLogic(guid, xml);
 
 		return Response.ok(

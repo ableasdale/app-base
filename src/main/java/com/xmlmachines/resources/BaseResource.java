@@ -86,11 +86,14 @@ public class BaseResource {
 	public void createDocumentInMarkLogic(String baseDocumentUri, String xmlDoc) {
 		ContentCreateOptions cco = new ContentCreateOptions();
 		try {
-			LOG.debug(MessageFormat.format("attempting to store doc: {0}",
+			LOG.debug(MessageFormat.format("[createDocumentInMarkLogic]: Attempting to store doc: {0}",
 					generateXmlDocumentUri(baseDocumentUri)));
+            LOG.debug(MessageFormat.format("[createDocumentInMarkLogic]: Doc content: {0}",
+                    xmlDoc));
+
 			session.insertContent(ContentFactory.newContent(
 					generateXmlDocumentUri(baseDocumentUri), xmlDoc, cco));
-			session.commit();
+			// ??? why ??? session.commit();
 		} catch (RequestException e) {
 			LOG.error(e);
 		} finally {
