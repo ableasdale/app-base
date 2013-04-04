@@ -80,7 +80,7 @@ public class MLBuildAndConfigurationTest {
 		Request r = s.newAdhocQuery("cts:uris( '', ('document') )");
 		ResultSequence rs = s.submitRequest(r);
 		// LOG.info(rs.asString());
-		Assert.assertEquals(157, rs.size());
+		Assert.assertEquals(156, rs.size());
 		s.close();
 	}
 
