@@ -98,7 +98,7 @@ public class MLBuildAndConfigurationTest {
         Request r1 = s.newAdhocQuery("count(cts:collections('2.xml'))");
         ResultSequence rs1 = s.submitRequest(r1);
         Assert.assertEquals(1, rs1.size());
-        Assert.assertEquals("1", rs1.asString());
+        Assert.assertEquals("2", rs1.asString());
 
         Request r3 = s.newAdhocQuery("xdmp:document-delete('2.xml')");
         s.submitRequest(r3);
