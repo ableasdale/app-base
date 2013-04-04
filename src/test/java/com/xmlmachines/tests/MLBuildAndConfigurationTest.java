@@ -89,18 +89,13 @@ public class MLBuildAndConfigurationTest {
 		Session s = MarkLogicContentSourceProvider.getInstance()
 				.getProductionContentSource().newSession(Consts.UNIT_TEST_DB);
 
-        // Given I have a doc with no collections
-        Request r = s.newAdhocQuery("xdmp:document-insert('2.xml', <two/>)");
+        // Given I have a doc with a collections
+        Request r = s.newAdhocQuery("xdmp:document-insert('2.xml', <two/>, (), 'test')");
         s.submitRequest(r);
-        Request r1 = s.newAdhocQuery("count(cts:collections('2.xml'))");
-        ResultSequence rs = s.submitRequest(r1);
-        Assert.assertEquals("0", rs.asString());
 
-        // When I add a collection to the doc
-        Request r2 = s.newAdhocQuery("xdmp:document-add-collections('2.xml', 'test')");
-        s.submitRequest(r2);
-
+        // When I call cts:collections for that doc
         // Then the total collections for that doc should be one
+        Request r1 = s.newAdhocQuery("count(cts:collections('2.xml'))");
         ResultSequence rs1 = s.submitRequest(r1);
         Assert.assertEquals(1, rs1.size());
         Assert.assertEquals("1", rs1.asString());
