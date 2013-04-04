@@ -3,15 +3,15 @@ package com.xmlmachines.providers;
 import java.io.IOException;
 import java.net.URI;
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.ws.rs.core.UriBuilder;
 
+import com.sun.jersey.api.core.PackagesResourceConfig;
+import com.sun.jersey.api.core.ResourceConfig;
 import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 
-import com.sun.jersey.api.container.grizzly2.GrizzlyWebContainerFactory;
+import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
 import com.xmlmachines.beans.ApplicationServerConfig;
 
 public class GrizzlyContainerProvider {
@@ -29,15 +29,16 @@ public class GrizzlyContainerProvider {
 		cfg = ConfigurationProvider.getInstance().getApplicationServerConfig();
 		port = Integer.parseInt(cfg.getHostPort());
 		BASE_URI = getBaseURI();
-		Map<String, String> initParams = new HashMap<String, String>();
+		/*Map<String, String> initParams = new HashMap<String, String>();
 		initParams.put("com.sun.jersey.config.property.packages",
-				"com.xmlmachines.resources;com.xmlmachines.providers");
+				"com.xmlmachines.resources;com.xmlmachines.providers"); */
 
 		try {
 			LOG.info(MessageFormat.format("Starting grizzly on port {0}",
 					cfg.getHostPort()));
-			httpServer = GrizzlyWebContainerFactory
-					.create(BASE_URI, initParams);
+            ResourceConfig rc = new PackagesResourceConfig("com.xmlmachines.resources","com.xmlmachines.providers");
+            httpServer = GrizzlyServerFactory
+					.createHttpServer(BASE_URI, (ResourceConfig) rc);
 		} catch (IOException e) {
 			LOG.error(e);
 		}
