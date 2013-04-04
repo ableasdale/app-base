@@ -80,7 +80,7 @@ public class MLBuildAndConfigurationTest {
 		Request r = s.newAdhocQuery("cts:uris( '', ('document') )");
 		ResultSequence rs = s.submitRequest(r);
 		// LOG.info(rs.asString());
-		Assert.assertEquals(156, rs.size());
+		Assert.assertEquals(157, rs.size());
 		s.close();
 	}
 
@@ -90,14 +90,14 @@ public class MLBuildAndConfigurationTest {
 				.getProductionContentSource().newSession(Consts.UNIT_TEST_DB);
 
         // Given I have a doc with no collections
-        Request r = s.newAdhocQuery("xdmp:document-insert('1.xml', <one/>)");
+        Request r = s.newAdhocQuery("xdmp:document-insert('2.xml', <two/>)");
         s.submitRequest(r);
-        Request r1 = s.newAdhocQuery("count(cts:collections('1.xml'))");
+        Request r1 = s.newAdhocQuery("count(cts:collections('2.xml'))");
         ResultSequence rs = s.submitRequest(r1);
         Assert.assertEquals("0", rs.asString());
 
         // When I add a collection to the doc
-        Request r2 = s.newAdhocQuery("xdmp:document-add-collections('1.xml', 'test')");
+        Request r2 = s.newAdhocQuery("xdmp:document-add-collections('2.xml', 'test')");
         s.submitRequest(r2);
 
         // Then the total collections for that doc should be one
@@ -105,8 +105,8 @@ public class MLBuildAndConfigurationTest {
         Assert.assertEquals(1, rs1.size());
         Assert.assertEquals("1", rs1.asString());
 
-        Request r3 = s.newAdhocQuery("xdmp:document-delete('1.xml')");
-        ResultSequence rs3 = s.submitRequest(r3);
+        Request r3 = s.newAdhocQuery("xdmp:document-delete('2.xml')");
+        s.submitRequest(r3);
         s.close();
 	}
 
